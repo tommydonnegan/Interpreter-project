@@ -24,4 +24,10 @@ data Command = Assign Variable Expr | Seq Command Command | Cond Expr Command Co
 
 data Expr = Const Val | Var Variable | Minus Expr Expr | Times Expr Expr | Greater Expr Expr
 
-data Store  = Fetch Store Variable | Update Store Variable Val | Initial Store
+type Store = Variable -> Val
+
+--Problem #3
+--Function name: eval
+--Function type: Expr -> Store -> Val
+eval :: Expr -> Store -> Val
+eval (Const c1) _ = c1
