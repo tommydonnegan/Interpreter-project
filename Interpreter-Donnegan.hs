@@ -80,8 +80,11 @@ interpret (Assign v e) s = update s v (eval e s)
 --interpret c2 s1. By doing this we ensure that both commands do not use the same store as data can be overwritten or modified depending on the function. 
 interpret (Seq c1 c2) s = let s1 = interpret c1 s in interpret c2 s1
 --Problem #6
---save
+--When calling interpret (Cond e c1 c2) s it calls the switch function. Calling switch applies the appropriate action to the store, where the choice is determined by its first argument.
 interpret (Cond e c1 c2) s = switch (eval e s) (interpret c1) (interpret c2) s
+--Problem #7
+--When calling interpret (While e body) s it calls switch to distinguishing between the actions taken when the loop test evaluates to 1 and when the loop test evaluates to 0
+--The success function creates a state s1 based off of the first interpretation of the loop being; interpret body store. s1 is then used in the iteration of the while loop
 interpret (While e body) s = switch (eval e s) success id s 
      where 
        success :: Store -> Store
